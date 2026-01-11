@@ -166,6 +166,54 @@ python bib_refiner.py --semantic-key YOUR_KEY --similarity 0.6
 python bib_refiner.py --semantic-key YOUR_KEY --keep-original
 ```
 
+## 🗄️ Data Sources & Priority
+
+The tool queries three academic databases in a specific order to maximize accuracy and coverage:
+
+### 1️⃣ Semantic Scholar (Priority 1)
+- **Coverage**: 📚 Most comprehensive - includes published papers, preprints (arXiv), and recent work
+- **Fields**: 🌐 All academic fields (CS, physics, biology, medicine, etc.)
+- **Speed**: ⚡ Fast with API key (10,000 requests/5min)
+- **Data Quality**: ⭐⭐⭐⭐⭐ Excellent - includes venue, DOI, authors, citations
+- **Why First?**: Best overall coverage for both published and preprint papers
+
+### 2️⃣ DBLP (Priority 2)
+- **Coverage**: 💻 Computer science and related fields only
+- **Fields**: 🖥️ CS, AI, ML, software engineering
+- **Speed**: ⚡ Fast - no API key required
+- **Data Quality**: ⭐⭐⭐⭐⭐ Excellent for CS - highly curated, consistent formatting
+- **Why Second?**: Extremely reliable for CS papers, but limited to CS domain
+
+### 3️⃣ Crossref (Priority 3)
+- **Coverage**: 📖 Formal publications with DOIs (journals, conferences)
+- **Fields**: 🌐 All fields - anything with a DOI
+- **Speed**: ⚡ Fast - no API key required
+- **Data Quality**: ⭐⭐⭐⭐ Good - but may miss preprints and very recent papers
+- **Why Last?**: Reliable fallback for papers with DOIs, but doesn't cover preprints
+
+### Query Strategy
+
+```
+Paper Title
+    ↓
+┌─────────────────────────┐
+│  Semantic Scholar       │ ✓ Found & Validated → Return
+│  (Try first)            │ ✗ Not found/low similarity ↓
+└─────────────────────────┘
+    ↓
+┌─────────────────────────┐
+│  DBLP                   │ ✓ Found & Validated → Return
+│  (Try second)           │ ✗ Not found/low similarity ↓
+└─────────────────────────┘
+    ↓
+┌─────────────────────────┐
+│  Crossref               │ ✓ Found & Validated → Return
+│  (Try last)             │ ✗ Failed → Save to error.txt
+└─────────────────────────┘
+```
+
+**Note**: Each source is validated with 70% title similarity threshold to prevent wrong matches.
+
 ## 🔄 How It Works
 
 ```
