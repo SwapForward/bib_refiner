@@ -1,0 +1,11 @@
+@inproceedings{cheng2025mmaudio,
+  title = {{MMAudio}: Taming Multimodal Joint Training for High-Quality Video-to-Audio Synthesis},
+  author = {Ho Kei Cheng and Masato Ishii},
+  year = {2025}
+}
+
+@article{researcher2023ai,
+  title = {Attention is All You Need},
+  author = {Vaswani et al.},
+  year = {2017}
+}
